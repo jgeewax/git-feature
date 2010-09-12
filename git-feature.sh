@@ -130,3 +130,24 @@ fi
 git add -A
 git commit -m \"Checkpoint for features/\$feature\"
 " -'
+
+git config alias.abandon '!sh -c "
+feature=\`git feature --current\`
+parent=\`git config \$feature.parent\`
+if [ -z \"\$feature\" ]
+then
+ echo \"you must be on a feature branch to use this\"
+ exit 1
+fi
+
+read -p \"this will abandon the feature branch \$feature (Y/n): \" YN
+if [ -z \"\$YN\" -o \"\$YN\" = \"y\" -o \"\$YN\" = \"Y\" ]
+then
+ git checkout \$parent
+ git branch -D features/\$feature
+ git config --remove-section \$feature
+else
+ echo \"aborting...\"
+fi
+exit 0
+" -'
