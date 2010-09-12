@@ -44,6 +44,25 @@ Now, my workflow looks like:
 All the stupid crap that I type every time is gone! And a few of the weirder
 cases are on there. 
 
+### WARNING
+
+This is my *personal* git workflow. It works for me. It might not work for you.
+I really like rebasing all the commits for a feature into one commit, though
+that's just my personal preference. 
+
+This has *NOT yet* been thoroughly tested! I've done *some* testing for 
+weird situations where rebasing throws errors and everything freaks out. If you
+find yourself stuck, *DON'T PANIC*. git-feature isn't doing anything magical.
+All it is is a bunch of git commands strung together in a particular order.
+
+If something goes wrong while integrating or finishing, a quick "reset and start
+over" would be...
+
+    $ git checkout features/your-feature-name
+    $ git rebase --abort
+
+and your feature branch should be back exactly where it was.
+
 ### Now onto the questions...
 
 #### How do I work on features?
