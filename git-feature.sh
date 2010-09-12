@@ -1,9 +1,9 @@
 #!/bin/sh
 
 git config alias.feature '!sh -c "
-  if [ \"\$1\" -a \"\$1\" = \"--current\" ]
+  current=`git branch | grep ^\\* | cut -f2 -d\" \" - | tail -c +10`
+  if [ \$1 -a \"\$1\" = \"--current\" ]
   then
-    current=`git branch | grep ^\\* | cut -f2 -d\" \" - | tail -c +10`
     if [ \$current ] 
     then
       echo \$current
@@ -30,7 +30,7 @@ git config alias.feature '!sh -c "
   if [ \$2 ]
   then
     parent=\$2
-  elif [ \"`git feature --current`\" ]
+  elif [ \$current ]
   then
     read -p \"where will this feature be merged into when it is done? \" parent
   else
