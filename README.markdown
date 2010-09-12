@@ -104,3 +104,25 @@ cases are on there.
     feature name: my-second-feature # <-- I typed this in...
     where will this feature be merged into when it is done? master # <-- I typed this in too...
     this will create a feature branch my-second-feature to be merged into master (Y/n): Y
+
+### Questions about how all this works...
+
+#### How does this work...?
+
+In short, I just put some fancy aliases together that uses shell scripting to
+do fancier stuff.
+
+#### When I do git finish, how do you know where to integrate into?
+
+When you create a feature (`git feature`), the shell script runs
+
+    git config (feature).parent (parent)
+
+so that we know the default parent. Don't worry, when you finish a feature it 
+gets removed from the config. Also, it's just the local config, so another git
+repository won't know about it.
+
+If you want to get rid of one manually:
+
+    $ git branch -D features/your-feature-name
+    $ git config --remove-section your-feature-name
