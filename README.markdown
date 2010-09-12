@@ -124,6 +124,52 @@ and your feature branch should be back exactly where it was.
     where will this feature be merged into when it is done? master # <-- I typed this in too...
     this will create a feature branch my-second-feature to be merged into master (Y/n): Y
 
+#### What if I'm working on something and need to work on something else?
+
+Since I rebase all my commits (and `git finish` will try to get you to rebase as
+well), I usually run `git add -A && git commit -m "Checkpoint"` to stash my
+commits on my current feature branch. 
+
+I found myself doing that so often that I just made it an alias...
+
+    $ git feature my-first-feature
+    this will create a feature branch my-first-feature to be merged into master (Y/n): Y
+    $ # (do work)
+    $ git checkpoint
+    $ git feature my-second-feature
+    where will this feature be merged into when it is done? master
+    this will create a feature branch my-second-feature to be merged into master (Y/n): Y
+
+This makes it relatively easy to save where you were and move onto another task.
+
+#### What if I have work that I need on my feature branch, but it isn't specific to my feature?
+
+This might be another personal preference, but I like to keep a feature branch 
+focused on the feature. That is, if I need to update a library that other people
+might need or use, I like to put that in another feature and the pull those
+changes over from the parent. This would look like...
+
+    $ git feature my-first-feature
+    this will create a feature branch my-first-feature to be merged into master (Y/n): Y
+    $ # (do work)
+    $ # (think of something that needs to be shared...)
+    $ git checkpoint
+    $ git feature edit-library
+    where will this feature be merged into when it is done? master
+    this will create a feature branch library to be merged into master (Y/n): Y
+    $ # (do work)
+    $ git finish
+    this will integrate edit-library into master (Y/n): Y
+    $ git feature my-first-feature
+    $ git rebase master
+    $ # (do more work)
+    $ git finish
+    this will integrate my-first-feature into master (Y/n): Y
+
+The rebase basically brings your branch up to speed relative to master and you
+(and other people on your team) can continue working on your feature with the
+changes to library being separate from your feature work. 
+
 ### Questions about how all this works...
 
 #### How does this work...?
