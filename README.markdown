@@ -42,7 +42,9 @@ Now, my workflow looks like:
     $ git finish
 
 All the stupid crap that I type every time is gone! And a few of the weirder
-cases are on there, for example:
+cases are on there. 
+
+### Now onto the what if's...
 
 ##### What if I'm on a feature branch and want to start another off of master?
 
@@ -78,3 +80,11 @@ cases are on there, for example:
     feature name: my-new-feature # <-- I typed this in...
     this will create a feature branch my-new-feature to be merged into master (Y/n): Y
 
+##### What if I'm on another branch and just try to create a feature?
+
+    $ git feature --current
+    my-first-feature
+    $ git feature
+    feature name: my-second-feature # <-- I typed this in...
+    where will this feature be merged into when it is done? master # <-- I typed this in too...
+    this will create a feature branch my-second-feature to be merged into master (Y/n): Y
