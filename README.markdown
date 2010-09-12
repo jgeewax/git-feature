@@ -44,19 +44,38 @@ Now, my workflow looks like:
 All the stupid crap that I type every time is gone! And a few of the weirder
 cases are on there. 
 
-### Now onto the what if's...
+### Now onto the questions...
 
-##### What if I'm on a feature branch and want to start another off of master?
+#### How do I work on features?
+
+    $ # (currently on master)
+    $ git feature my-new-feature
+    this will create a feature branch my-new-feature to be merged into master (Y/n): Y
+
+#### OK, I'm done working. How do I integrate my work back into master?
 
     $ git feature --current
-    my-first-feature
-    $ git feature my-second-feature master
-    this will create a feature branch my-second-feature to be merged into master (Y/n): Y
+    my-new-feature
+    $ git integrate master
+    this will integrate my-new-feature into master (Y/n): Y
+
+#### What if I want to throw away the feature branch?
+
     $ git feature --current
-    my-second-feature
+    my-new-feature
+    $ git finish
+    this will integrate my-new-feature into master (Y/n): Y
+
+#### What if I'm not on master but want to start a feature branch off of master?
+
+    $ # (not currently on master...)
+    $ git feature my-new-feature master
+    this will create a feature branch my-new-feature to be merged into master (Y/n): Y
+    $ git feature --current
+    my-new-feature
     $ # (This feature is based off of master, not my-first-feature)
 
-##### What if I want to merge my feature into two separate parent branches?
+#### What if I want to integrate my feature into two different parent branches?
 
     $ git feature --current
     my-first-feature
@@ -65,7 +84,7 @@ cases are on there.
     $ git integrate some-other-branch
     this will integrate my-first-feature into some-other-branch (Y/n): Y
 
-##### What if I want to base my branch off of something different?
+#### What if I want to base my branch off of something different?
 
     $ # (currently on master)
     $ git feature my-new-feature my-other-parent
@@ -73,17 +92,14 @@ cases are on there.
     $ git feature --current
     my-new-feature
 
-##### What if I don't remember the order of the arguments?
+#### What if I don't remember the order of the arguments?
 
     $ # (currently on master)
     $ git feature
     feature name: my-new-feature # <-- I typed this in...
     this will create a feature branch my-new-feature to be merged into master (Y/n): Y
-
-##### What if I'm on another branch and just try to create a feature?
-
     $ git feature --current
-    my-first-feature
+    my-new-feature
     $ git feature
     feature name: my-second-feature # <-- I typed this in...
     where will this feature be merged into when it is done? master # <-- I typed this in too...
