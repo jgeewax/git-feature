@@ -168,10 +168,8 @@ then
  git checkout \$parent
  git branch -D features/\$feature
  git config --remove-section \$feature
- if [ \"\$current\" == \"features/\$feature\" ]
+ if [ \"\$current\" != \"features/\$feature\" ]
  then
-  git checkout \$parent
- else
   git checkout \$current
  fi
 else
