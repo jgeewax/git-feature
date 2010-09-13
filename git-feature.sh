@@ -132,12 +132,34 @@ git commit -m \"Checkpoint for features/\$feature\"
 " -'
 
 git config alias.abandon '!sh -c "
-feature=\`git feature --current\`
-parent=\`git config \$feature.parent\`
+if [ -n \"\$1\" ]
+then
+ feature=\$1
+ if [ -z \"\`git branch | grep features/\$feature\\\$\`\" ]
+ then
+  echo \"aborting... unknown feature branch...\"
+  exit 0
+ fi
+elif [ -n \"\`git feature --current\`\" ]
+then
+ feature=\`git feature --current\`
+else
+ read -p \"which feature branches do you want to abandon? \" feature
+fi
+
 if [ -z \"\$feature\" ]
 then
- echo \"you must be on a feature branch to use this\"
- exit 1
+ echo \"aborting... missing feature branch...\"
+ exit 0
+fi
+
+parent=\`git config \$feature.parent\`
+current=\`git branch | grep ^\\* | cut -f2 -d\" \" -\`
+
+if [ -z \"\$parent\" ]
+then
+ echo \"aborting... missing parent branch...\"
+ exit 0
 fi
 
 read -p \"this will abandon the feature branch \$feature (Y/n): \" YN
@@ -146,6 +168,12 @@ then
  git checkout \$parent
  git branch -D features/\$feature
  git config --remove-section \$feature
+ if [ \"\$current\" == \"features/\$feature\" ]
+ then
+  git checkout \$parent
+ else
+  git checkout \$current
+ fi
 else
  echo \"aborting...\"
 fi
